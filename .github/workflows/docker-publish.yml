@@ -20,7 +20,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-app:latest .
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-app:${{ github.run_number }} -t ${{ secrets.DOCKER_USERNAME }}/flask-app:latest .
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/flask-app:latest
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/flask-app:${{ github.run_number }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/flask-app:latest
